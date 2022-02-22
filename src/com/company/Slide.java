@@ -44,17 +44,20 @@ public class Slide {
         tags.addAll(slide.getTags());
     }
 
-    public int getScore(Slide slide) {
+    public int getCommonTagsNum(Slide slide) {
         Set<String> commonTags = new HashSet<>(tags);
         commonTags.retainAll(slide.getTags());
+        return commonTags.size();
+    }
 
+    public int getScore(Slide slide) {
         Set<String> diff1 = new HashSet<>(tags);
         diff1.removeAll(slide.getTags());
 
         Set<String> diff2 = new HashSet<>(slide.getTags());
         diff2.removeAll(tags);
 
-        return Math.min(Math.min(commonTags.size(), diff1.size()), diff2.size());
+        return Math.min(Math.min(getCommonTagsNum(slide), diff1.size()), diff2.size());
     }
 
     public int getPotentialScore(Slide prev) {
